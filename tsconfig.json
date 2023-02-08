@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "module": "commonjs",
+    "module": "esnext",
     "removeComments": false,
     "preserveConstEnums": true,
     "moduleResolution": "node",
@@ -15,13 +15,63 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "react-jsx",
+    "jsx": "react",
+    "jsxFactory": "React.createElement",
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [
-      "node_modules/@types"
-    ]
+      "node_modules/@types",
+      "global.d.ts"
+    ],
+    "paths": {
+      // 让ts识别的绝对路径
+      "@actions": [
+        "src/actions/"
+      ],
+      "@actions/*": [
+        "src/actions/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@components": [
+        "src/components/"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@constants/*": [
+        "src/constants/*"
+      ],
+      "@pages/*": [
+        "src/pages/*"
+      ],
+      "@reducers": [
+        "src/reducers"
+      ],
+      "@reducers/*": [
+        "src/reducers/*"
+      ],
+      "@style/*": [
+        "src/style/*"
+      ],
+      "@utils": [
+        "src/utils"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@service": [
+        "src/service/"
+      ],
+      "@hooks": [
+        "src/hooks/"
+      ],
+    },
   },
-  "include": ["./src", "./types"],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
   "compileOnSave": false
 }
