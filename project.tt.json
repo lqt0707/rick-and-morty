@@ -1,0 +1,9 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "rick-and-morty",
+  "appid": "testAppId",
+  "setting": {
+    "es6": false,
+    "minified": false
+  }
+}
