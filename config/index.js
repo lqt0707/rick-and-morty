@@ -1,3 +1,4 @@
+import path from 'path'
 const config = {
   projectName: 'rick-and-morty',
   date: '2023-2-9',
@@ -10,13 +11,29 @@ const config = {
   sourceRoot: 'src',
   outputRoot: 'dist',
   plugins: [],
-  defineConstants: {
-  },
   copy: {
     patterns: [
     ],
     options: {
     }
+  },
+  defineConstants: {
+    IS_H5: process.env.TARO_ENV === "h5",
+    IS_RN: process.env.TARO_ENV === "rn",
+    IS_WEAPP: process.env.TARO_ENV === "weapp"
+  },
+  alias: {
+    // 配置taro项目的绝对路径
+    "@actions": path.resolve(__dirname, "..", "src/actions"),
+    "@assets": path.resolve(__dirname, "..", "src/assets"),
+    "@components": path.resolve(__dirname, "..", "src/components"),
+    "@constants": path.resolve(__dirname, "..", "src/constants"),
+    "@pages": path.resolve(__dirname, "..", "src/pages"),
+    "@reducers": path.resolve(__dirname, "..", "src/reducers"),
+    "@style": path.resolve(__dirname, "..", "src/style"),
+    "@utils": path.resolve(__dirname, "..", "src/utils"),
+    "@service": path.resolve(__dirname, "..", "src/service"),
+    "@hooks": path.resolve(__dirname, "..", "src/hooks"),
   },
   framework: 'react',
   compiler: 'webpack5',
@@ -27,9 +44,7 @@ const config = {
     postcss: {
       pxtransform: {
         enable: true,
-        config: {
-
-        }
+        config: {}
       },
       url: {
         enable: true,
@@ -40,37 +55,40 @@ const config = {
       cssModules: {
         enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
+          namingPattern: "module", // 转换模式，取值为 global/module
+          generateScopedName: "[name]__[local]___[hash:base64:5]"
         }
       }
     }
   },
   h5: {
-    publicPath: '/',
-    staticDirectory: 'static',
+    publicPath: "/",
+    staticDirectory: "static",
+    esnextModules: ['taro-ui'],
     postcss: {
+      pxtransform: {
+        enable: true,
+      },
       autoprefixer: {
         enable: true,
-        config: {
-        }
+        config: {}
       },
       cssModules: {
         enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
         config: {
-          namingPattern: 'module', // 转换模式，取值为 global/module
-          generateScopedName: '[name]__[local]___[hash:base64:5]'
+          namingPattern: "module", // 转换模式，取值为 global/module
+          generateScopedName: "[name]__[local]___[hash:base64:5]"
         }
       }
     }
   },
   rn: {
-    appName: 'taroDemo',
-    postcss: {
-      cssModules: {
-        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
-      }
-    }
+    output: {
+      ios: 'taro-native-shell/ios/main.jsbundle',
+      iosAssetsDest: 'taro-native-shell/ios',
+      android: 'taro-native-shell/android/app/src/main/assets/index.android.bundle',
+      androidAssetsDest: 'taro-native-shell/android/app/src/main/res'
+    },
   }
 }
 
