@@ -8,6 +8,7 @@ import "./index.less";
 import { useRandomCharacters } from "../../hooks/useRandomCharacters";
 import { useStatusBarHeight } from "../../hooks/useStatusBarHeight";
 import { StatusBar } from "@components";
+import CustomScrollView from "@components/CustomScrollView";
 
 // 顶部的按钮
 const headerBtns: headerBtnsType[] = [
@@ -41,7 +42,7 @@ const Wiki: React.FC<any> = () => {
     // 滚到顶部
     scrollTop(ScrollViewRef);
     refreshCharacters();
-  }, [ScrollViewRef, refreshCharacters()]);
+  }, [ScrollViewRef, refreshCharacters]);
   return (
     <View className="wiki">
       <StatusBar
@@ -49,6 +50,9 @@ const Wiki: React.FC<any> = () => {
         backgroundColor="rgba(0,0,0,0)"
         translucent
       />
+      <CustomScrollView autoHideTab onRefresh={onRefresh} ref={ScrollViewRef}>
+
+      </CustomScrollView>
     </View>
   );
 };
