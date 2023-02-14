@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react";
-import { View } from "@tarojs/components";
+import { Button, Image, Text, View } from "@tarojs/components";
 import { headerBtnsType } from "@pages/wiki/type";
 import Taro from "@tarojs/taro";
 
@@ -9,6 +9,8 @@ import { useRandomCharacters } from "../../hooks/useRandomCharacters";
 import { useStatusBarHeight } from "../../hooks/useStatusBarHeight";
 import { StatusBar } from "@components";
 import CustomScrollView from "@components/CustomScrollView";
+import { wikiBackground } from "@assets/image";
+import Iconfont from "@components/Iconfont/index";
 
 // 顶部的按钮
 const headerBtns: headerBtnsType[] = [
@@ -51,7 +53,46 @@ const Wiki: React.FC<any> = () => {
         translucent
       />
       <CustomScrollView autoHideTab onRefresh={onRefresh} ref={ScrollViewRef}>
+        <View className={"wiki-header"} style={{ marginTop: statusBarHeight }}>
+          <Image
+            src={wikiBackground}
+            className={"wiki-header-background"}
+            mode={"widthFix"}
+          />
+        </View>
 
+        <View className={"wiki-content"}>
+          <View className={"wiki-content-top"}>
+            {headerBtns.map((btn, index) => (
+              <Button
+                key={btn.value}
+                className={`wiki-content-btn ${
+                  index === headerBtns.length - 1 && "wiki-content-btn_last"
+                }`}
+                hoverClass={"btn-active"}
+                hoverStyle={{ opacity: 0.6 }}
+                onClick={btn.onClick}
+              >
+                <Text className={"viki-content-btn-value"}>{btn.value}</Text>
+              </Button>
+            ))}
+          </View>
+          {
+            characters.map(character=><CharaterCard />)
+          }
+        </View>
+
+        <View className={"wiki-footer"}>
+          <Button
+            className={"wiki-footer-btn"}
+            style={{ bottom: 0 }}
+            onClick={onRefresh}
+            hoverClass={"btn-active"}
+            hoverStyle={{ opacity: 0.6 }}
+          >
+            <Iconfont name={"swap"} size={56} />
+          </Button>
+        </View>
       </CustomScrollView>
     </View>
   );
