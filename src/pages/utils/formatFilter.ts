@@ -1,13 +1,13 @@
-import _ from "lodash";
+import _ from 'lodash'
 
-// 将filter中的all转换为空字符
+// 将filter中的all转户为空字符
 export const formatFilter = <T>(filter): T => {
-  const newFilter: T = _.cloneDeep(filter);
+  const newFilter: T = _.cloneDeep(filter)
   for (const key in filter) {
-    const value = filter[key];
-    if (value === "all") {
-      newFilter[key] = "";
+    const value = filter[key]
+    if (value === 'all') {
+      newFilter[key] = ''
     }
   }
-  return newFilter;
-};
+  return newFilter
+}

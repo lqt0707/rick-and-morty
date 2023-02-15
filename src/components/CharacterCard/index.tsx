@@ -1,11 +1,18 @@
-import { CharacterFiltReqType } from "../../service/types/getCharacter";
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 import Taro from "@tarojs/taro";
 import { updateWikiCharacter } from "@actions/wiki";
+import { View, Image, Text } from "@tarojs/components";
+import { defaultCharacterImage } from "@assets/image";
+import "./index.less"
+import { CharacterType } from "@constants/types/wiki";
 
+let RNSkeleton: any
+if (IS_RN) {
+  RNSkeleton = require('./RNSkeleton').default
+}
 interface CharacterCardProps {
-  character: CharacterFiltReqType;
+  character: CharacterType;
   showImage?: boolean;
   number?: number;
 }
@@ -15,11 +22,74 @@ const CharacterCard: React.FC<CharacterCardProps> = ({
   showImage = true,
   number,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const handleClickCard = () => {
     dispatch(updateWikiCharacter(character));
     Taro.navigateTo({
       url: `/pages/wiki/pages/character/index?id=${character.id}`,
     });
   };
+
+  // 骨架屏
+  if (!character.name) {
+    // RN上的骨架屏
+    if (IS_RN) {
+      return <RNSkeleton character={character} showImage={showImage} />;
+    }
+    // 小程序上的骨架屏
+    return (
+      <View key={character.id} className="c-card">
+        {showImage && (
+          <Image
+            className="c-card-img c-card-loading-img"
+            src={defaultCharacterImage}
+            mode="widthFix"
+          />
+        )}
+        <View className="c-card-content c-card-loading-content">
+          <View className="c-card-loading-name"></View>
+          <View className="c-card-loading-status"></View>
+          <View className="c-card-loading-title"></View>
+          <View className="c-card-loading-text"></View>
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <View
+      key={character.id}
+      className="c-card"
+      onClick={handleClickCard}
+      hoverClass="c-card_active"
+      hoverStyle={{ opacity: 0.75 }}
+    >
+      {showImage && (
+        <Image
+          className="c-card-img"
+          src={character.image}
+          mode="widthFix"
+          lazyLoad
+        />
+      )}
+      <View className="c-card-content">
+        <Text className="c-card-name">{character.name}</Text>
+        {number && <Text className="c-card-number">{number}</Text>}
+        <View className="c-card-status">
+          <View
+            className={`c-card-status-point c-card-status_${character.status}`}
+          ></View>
+          <Text className="c-card-status-text">{character.status}</Text>
+          <Text className="c-card-status-text">&nbsp;-&nbsp;</Text>
+          <Text className="c-card-status-text">{character.species}</Text>
+        </View>
+
+        <View className="c-card-title">
+          <Text className="c-card-title-text">location:</Text>
+        </View>
+        <Text className="c-card-text">{character.location.name}</Text>
+      </View>
+    </View>
+  );
 };
+export default memo(CharacterCard);

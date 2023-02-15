@@ -11,6 +11,7 @@ import { StatusBar } from "@components";
 import CustomScrollView from "@components/CustomScrollView";
 import { wikiBackground } from "@assets/image";
 import Iconfont from "@components/Iconfont/index";
+import CharacterCard from "@components/CharacterCard";
 
 // 顶部的按钮
 const headerBtns: headerBtnsType[] = [
@@ -77,9 +78,9 @@ const Wiki: React.FC<any> = () => {
               </Button>
             ))}
           </View>
-          {
-            characters.map(character=><CharaterCard />)
-          }
+          {characters.map((character) => (
+            <CharacterCard key={character.id} character={character} />
+          ))}
         </View>
 
         <View className={"wiki-footer"}>
@@ -90,7 +91,7 @@ const Wiki: React.FC<any> = () => {
             hoverClass={"btn-active"}
             hoverStyle={{ opacity: 0.6 }}
           >
-            <Iconfont name={"swap"} size={56} />
+            <Iconfont name={"swap"} size={56}style={{lineHeight:80}} />
           </Button>
         </View>
       </CustomScrollView>
